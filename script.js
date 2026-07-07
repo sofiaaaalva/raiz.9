@@ -473,3 +473,12 @@ function toggleCard(clickedCard) {
     fraseObserver.observe(fraseSection);
   }
 }
+
+//fondo de color de cursos
+window.addEventListener('DOMContentLoaded', () => {
+        const fondos = document.querySelectorAll('.card-front-content');
+        // Buscamos cuál es la altura máxima entre los 3 fondos
+        const alturaMaxima = Math.max(...Array.from(fondos).map(f => f.offsetHeight));
+        // Se la aplicamos a las tres por igual
+        fondos.forEach(f => f.style.height = `${alturaMaxima}px`);
+    });

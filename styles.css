@@ -492,7 +492,7 @@ display: flex;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 40px;
+    gap: 60px;
 }
 
 @media (min-width: 1025px) {
@@ -590,6 +590,66 @@ display: flex;
     justify-content: flex-end; 
 }
 
+/* 1. La grilla principal ahora controla las filas de todas las tarjetas juntas */
+.cards-grid-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tus 3 columnas verticales */
+    
+    /* Creamos dos filas globales: arriba la imagen (1fr) y abajo el texto (auto) */
+    grid-template-rows: 1fr auto; 
+    gap: 20px; /* El espacio que tengas entre tarjetas */
+}
+
+/* 2. Hacemos que la tarjeta ocupe ambas filas globales de la grilla */
+.feature-card {
+    grid-row: span 2; /* Ocupa la fila de la imagen y la del texto */
+    display: grid;
+    grid-template-rows: subgrid; /* ¡La magia! Hereda las filas de la grilla principal */
+}
+
+/* 3. El contenedor interno (necesario por el efecto flip) también hereda las filas */
+.card-inner {
+    grid-row: span 2;
+    display: grid;
+    grid-template-rows: subgrid;
+}
+
+/* 4. La cara frontal se adapta al subgrid */
+.card-front {
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    padding: 0 !important;
+    overflow: hidden;
+
+    /* NUEVO TRUCO DE RECORTE COMPLETO */
+    background-clip: padding-box; 
+}
+
+.card-front-content {
+    background-color: var(--color-oscuro); /* Tu color de fondo */
+    width: 100%;
+    padding: 24px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+
+    /* ELIMINAMOS los trucos anteriores de -1px y box-shadow para limpiar el código */
+    margin: 0; 
+    
+    /* TRUCO CLAVE: Un borde sólido de 1px abajo y a los costados del mismo color que el fondo.
+       Esto obliga al navegador a estirar el renderizado del color y tapa el error del subpíxel. */
+    border: 1px solid var(--color-oscuro); 
+    border-top: none; /* Arriba no lo necesitas porque está la imagen */
+}
+
 .sec-unica h3 {
     font-size: 1.4rem;
     font-weight: 600;
@@ -619,7 +679,6 @@ display: flex;
     justify-content: space-between;
     width: 100%;
     padding-top: 15px;
-    border-top: 1px solid rgba(247, 232, 215, 0.1);
     color: var(--color-naranja);
     font-weight: 700;
     text-transform: uppercase;
@@ -668,7 +727,7 @@ display: flex;
     
     width: 100%;
     padding-top: 15px;
-    border-top: 1px solid var(--color-crema);
+    border-top: 1px solid color-mix(in srgb, var(--color-crema) 20%, transparent);
 }
 
 /* Cada columna individual */
